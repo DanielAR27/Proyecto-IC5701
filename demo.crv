@@ -1,0 +1,8 @@
+ejercito Finanzas {
+  global var ultimoMensaje
+  mision calcularCuotas(total, cuotas) severidad=estricto {
+    ejecutar:
+      cuotaBase = truncar(total / cuotas)
+      reportar("ok")
+  }
+}
