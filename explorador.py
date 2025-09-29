@@ -97,8 +97,6 @@ MASTER_RE = re.compile(MASTER_REGEX)
 class Token:
     lexema: str
     tipo: str
-    fila: int
-    columna: int
     atributos: Dict[str, Any]
 
 class ExploradorError(Exception):
@@ -150,7 +148,8 @@ class Explorador:
             # Actualiza contadores si es NL
             if tipo == "NL":
                 if self.con_nuevaslineas:
-                    tokens.append(Token(lexema, "NL", tok_linea, tok_col, {}))
+                    attrs = {"fila": tok_linea, "columna": tok_col}
+                    tokens.append(Token(lexema, "NL", attrs))
                 # contar saltos
                 nl_count = lexema.count("\n")
                 linea += nl_count
@@ -166,7 +165,8 @@ class Explorador:
             else:
                 # Clasificar y construir atributos
                 tipo, attrs = self._clasificar(tipo, lexema)
-                tokens.append(Token(lexema, tipo, tok_linea, tok_col, attrs))
+                attrs.update({"fila": tok_linea, "columna": tok_col})
+                tokens.append(Token(lexema, tipo, attrs))
 
             pos = fin
 
@@ -178,7 +178,8 @@ class Explorador:
                 excerpt = bad_chunk[:20].replace("\n", "\\n")
                 msg = f"Carácter no reconocido al final en fila {linea}, columna {col}: '{excerpt}'"
                 if self.tolerante:
-                    tokens.append(Token(bad_chunk, "ERROR", linea, col, {"motivo": "desconocido"}))
+                    attrs = {"fila": linea, "columna": col, "motivo": "desconocido"}
+                    tokens.append(Token(bad_chunk, "ERROR", attrs))
                 else:
                     raise ExploradorError(msg)
 
@@ -239,10 +240,10 @@ def tokens_a_texto(tokens: Iterable[Token]) -> str:
 
 def tokens_a_tabla(tokens: Iterable[Token]) -> str:
     # Tabla simple alineada
-    filas = [("Lexema", "Tipo", "Atributos", "Fila", "Col")]
+    filas = [("Lexema", "Tipo", "Atributos")]
     for t in tokens:
         attrs = json.dumps(t.atributos, ensure_ascii=False)
-        filas.append((t.lexema, t.tipo, attrs, str(t.fila), str(t.columna)))
+        filas.append((t.lexema, t.tipo, attrs))
 
     # Ancho de columnas
     anchos = [max(len(fila[i]) for fila in filas) for i in range(len(filas[0]))]
