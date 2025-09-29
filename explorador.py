@@ -227,6 +227,16 @@ class Explorador:
 # Utilidades de salida
 # -------------------------
 
+# Genera un texto con los tokens, cada uno en formato:
+# <"Tipo de componente léxico", "Texto del componente léxico", “Atributos adicionales del componente”>
+def tokens_a_texto(tokens: Iterable[Token]) -> str:
+    lineas = []
+    for t in tokens:
+        attrs = json.dumps(t.atributos, ensure_ascii=False)
+        lineas.append(f'<"{t.tipo}", "{t.lexema}", {attrs}>')
+    return "\n".join(lineas)
+
+
 def tokens_a_tabla(tokens: Iterable[Token]) -> str:
     # Tabla simple alineada
     filas = [("Lexema", "Tipo", "Atributos", "Fila", "Col")]
@@ -256,6 +266,8 @@ def main():
                         help="Archivo fuente a leer, o '-' para stdin (default: '-')")
     parser.add_argument("--json", action="store_true",
                         help="Imprimir salida como JSON")
+    parser.add_argument("--tabla", action="store_true",
+                        help="Imprimir salida como tabla (ignorado si --json está presente)")
     parser.add_argument("--include-nl", action="store_true",
                         help="Incluir tokens NL (saltos de línea)")
     parser.add_argument("--tolerant", action="store_true",
@@ -280,8 +292,10 @@ def main():
     if args.json:
         out = [asdict(t) for t in tokens]
         print(json.dumps(out, ensure_ascii=False, indent=2))
-    else:
+    elif args.tabla:
         print(tokens_a_tabla(tokens))
+    else:
+        print(tokens_a_texto(tokens))
 
 
 if __name__ == "__main__":
