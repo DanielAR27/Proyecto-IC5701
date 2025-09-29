@@ -189,23 +189,23 @@ class Explorador:
         """Devuelve (tipo, atributos) normalizados para la tabla Lexema/Tipo/Atributos."""
         if tipo == "IDENT":
             if lexema in PALABRAS_CLAVE:
-                return ("PALABRA_CLAVE", {"PC": lexema})
-            return ("IDENT", {"nombre": lexema})
+                return ("PALABRA_CLAVE", {})
+            return ("IDENT", {})
 
         if tipo == "NUM_ENTERO":
-            return ("NUM_ENTERO", {"value": int(lexema)})
+            return ("NUM_ENTERO", {})
 
         if tipo == "NUM_FLOTANTE":
-            return ("NUM_FLOTANTE", {"value": float(lexema)})
+            return ("NUM_FLOTANTE", {})
 
         if tipo == "CADENA":
             return ("CADENA", {"valor": lexema[1:-1]})  # sin comillas
 
         if tipo == "OPERADOR":
-            return ("OPERADOR", {"op": lexema})
+            return ("OPERADOR", {})
 
         if tipo == "SIMBOLO":
-            return ("SIMBOLO", {"valor": lexema})
+            return ("SIMBOLO", {})
 
         # Fallback (No se sabe con exactitud)
         return (tipo, {})
