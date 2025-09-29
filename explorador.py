@@ -234,7 +234,7 @@ def tokens_a_texto(tokens: Iterable[Token]) -> str:
     lineas = []
     for t in tokens:
         attrs = json.dumps(t.atributos, ensure_ascii=False)
-        lineas.append(f'<"{t.tipo}", "{t.lexema}", {attrs}>')
+        lineas.append(f'<{t.tipo}, {t.lexema}, {attrs}>')
     return "\n".join(lineas)
 
 
