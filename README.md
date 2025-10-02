@@ -74,7 +74,7 @@ cat archivo.crv | python3 explorador.py
 - `--json`
 Imprime la lista de tokens en JSON.
 
--- `--tabla`
+- `--tabla`
 Imprime la lista como una tabla.
 
 - `--include-nl`
