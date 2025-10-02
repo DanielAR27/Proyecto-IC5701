@@ -21,7 +21,7 @@ from typing import List, Dict, Tuple, Any, Iterable
 # Definiciones básicas
 # -------------------------
 
-# Palabras clave del lenguaje (según la gramática cargada)
+# Palabras clave del lenguaje
 PALABRAS_CLAVE = {
     # contenedores / estructura
     "ejercito", "global", "var", "mision", "severidad", "estricto", "advertencia",
