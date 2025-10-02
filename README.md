@@ -74,6 +74,9 @@ cat archivo.crv | python3 explorador.py
 - `--json`
 Imprime la lista de tokens en JSON.
 
+-- `--tabla`
+Imprime la lista como una tabla.
+
 - `--include-nl`
 Incluye tokens NL (saltos de línea).
 
@@ -84,6 +87,7 @@ Ejemplos:
 
 ```bash
 python3 explorador.py ejemplo.crv --json
+python3 explorador.py ejemplo.crv --tabla
 python3 explorador.py ejemplo.crv --include-nl
 python3 explorador.py ejemplo.crv --tolerant --json > tokens.json
 ```
@@ -104,30 +108,30 @@ ejercito Finanzas {
 **Comando**
 
 ```bash
-python3 explorador.py ejemplo.crv
+python3 explorador.py ejemplo.crv --tabla
 ```
 
 **Salida (tabla)**
 
 ```csharp
-Lexema   | Tipo          | Atributos                  | Fila | Col
----------+---------------+----------------------------+------+----
-ejercito | PALABRA_CLAVE | {"PC": "ejercito"}         | 1    | 1
-Finanzas | IDENT         | {"nombre": "Finanzas"}     | 1    | 10
-{        | SIMBOLO       | {"valor": "{"}             | 1    | 19
-global   | PALABRA_CLAVE | {"PC": "global"}           | 2    | 3
-var      | PALABRA_CLAVE | {"PC": "var"}              | 2    | 10
-x        | IDENT         | {"nombre": "x"}            | 2    | 14
-=        | OPERADOR      | {"op": "="}                | 2    | 16
-10       | NUM_ENTERO    | {"value": 10}              | 2    | 18
-x        | IDENT         | {"nombre": "x"}            | 3    | 3
-+=       | OPERADOR      | {"op": "+="}               | 3    | 5
-5        | NUM_ENTERO    | {"value": 5}               | 3    | 8
-reportar | PALABRA_CLAVE | {"PC": "reportar"}         | 4    | 3
-(        | SIMBOLO       | {"valor": "("}             | 4    | 11
-"ok"     | CADENA        | {"valor": "ok"}            | 4    | 12
-)        | SIMBOLO       | {"valor": ")"}             | 4    | 16
-}        | SIMBOLO       | {"valor": "}"}             | 5    | 1
+Lexema   | Tipo          | Atributos                                
+---------+---------------+------------------------------------------
+ejercito | PALABRA_CLAVE | {"fila": 1, "columna": 1}                
+Finanzas | IDENT         | {"fila": 1, "columna": 10}               
+{        | SIMBOLO       | {"fila": 1, "columna": 19}               
+global   | PALABRA_CLAVE | {"fila": 2, "columna": 3}                
+var      | PALABRA_CLAVE | {"fila": 2, "columna": 10}               
+x        | IDENT         | {"fila": 2, "columna": 14}               
+=        | OPERADOR      | {"fila": 2, "columna": 16}               
+10       | NUM_ENTERO    | {"fila": 2, "columna": 18}               
+x        | IDENT         | {"fila": 3, "columna": 3}                
++=       | OPERADOR      | {"fila": 3, "columna": 5}                
+5        | NUM_ENTERO    | {"fila": 3, "columna": 8}                
+reportar | PALABRA_CLAVE | {"fila": 4, "columna": 3}                
+(        | SIMBOLO       | {"fila": 4, "columna": 11}               
+"ok"     | CADENA        | {"valor": "ok", "fila": 4, "columna": 12}
+)        | SIMBOLO       | {"fila": 4, "columna": 16}               
+}        | SIMBOLO       | {"fila": 5, "columna": 1}  
 ```
 
 ---
@@ -150,7 +154,7 @@ python3 explorador.py error.crv
 **Salida**
 
 ```bash
-Error léxico: Carácter no reconocido en fila 2, columna 9: '@'
+Error léxico: Carácter no reconocido en fila 2, columna 12: '@'
 ```
 
 **2. Ejecución tolerante**
@@ -162,9 +166,9 @@ python3 explorador.py error.crv --tolerant
 **Salida (tabla)**
 
 ```csharp
-Lexema | Tipo   | Atributos                      | Fila | Col
--------+--------+--------------------------------+------+----
-@      | ERROR  | {"motivo": "desconocido"}      | 2    | 9
+Lexema | Tipo   | Atributos                      
+-------+--------+----------------------------------------------------
+@      | ERROR  | {"fila": 2, "columna": 12, "motivo": "desconocido"}
 ```
 
 ---

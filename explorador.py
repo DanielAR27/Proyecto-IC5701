@@ -130,7 +130,8 @@ class Explorador:
                     excerpt = bad_chunk[:20].replace("\n", "\\n")
                     msg = f"Carácter no reconocido en fila {linea}, columna {col}: '{excerpt}'"
                     if self.tolerante:
-                        tokens.append(Token(bad_chunk, "ERROR", linea, col, {"motivo": "desconocido"}))
+                        attrs = {"fila": linea, "columna": col, "motivo": "desconocido"}
+                        tokens.append(Token(bad_chunk, "ERROR", attrs))
                     else:
                         raise ExploradorError(msg)
 
